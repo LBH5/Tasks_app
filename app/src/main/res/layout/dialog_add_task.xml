@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="24dp"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/edit_text_new_task"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:hint="@string/dialog_hint_new_task"
+        android:textSize="18sp"
+        android:background="@null"
+        android:fontFamily="sans-serif"
+        android:importantForAutofill="no"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/edit_text_new_task_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_new_task"
+        android:hint="@string/dialog_hint_add_details"
+        android:textSize="16sp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:importantForAutofill="no"
+        android:inputType="text" />
+
+    <ImageButton
+        android:id="@+id/image_button_task_details"
+        android:src="@drawable/notes_24"
+        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:contentDescription="@string/dialog_add_task_details_description"
+        android:background="@null"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_new_task_details"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <ImageButton
+        android:id="@+id/image_button_star_task"
+        android:src="@drawable/star_24"
+        android:background="@null"
+        android:contentDescription="@string/star_the_task_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/image_button_task_details"
+        app:layout_constraintStart_toEndOf="@id/image_button_task_details"
+        android:layout_marginStart="12dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_save_task"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/image_button_task_details"
+        app:layout_constraintBottom_toBottomOf="@id/image_button_task_details"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/button_save"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,4 +2,10 @@
     <string name="app_name">Tasks app</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dialog_hint_new_task">New Task</string>
+    <string name="dialog_task_description">Task description</string>
+    <string name="dialog_add_task_details_description">add task details description</string>
+    <string name="star_the_task_button">Star the task button</string>
+    <string name="button_save">Save</string>
+    <string name="dialog_hint_add_details">Add details</string>
 </resources>
