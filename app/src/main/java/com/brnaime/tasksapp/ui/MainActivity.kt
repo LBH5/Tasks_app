@@ -3,15 +3,11 @@ package com.brnaime.tasksapp.ui
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.brnaime.tasksapp.R
 import com.brnaime.tasksapp.data.TasksAppDB
 import com.brnaime.tasksapp.data.models.Task
 import com.brnaime.tasksapp.databinding.ActivityMainBinding
@@ -24,54 +20,47 @@ import kotlin.concurrent.thread
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var database: TasksAppDB
+    private val database by lazy { TasksAppDB.getDatabase(this) }
     private val taskDao by lazy { database.getTaskDAO() }
     private val tasksFragment: TasksFragment = TasksFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-        binding.viewPager.adapter = ViewPagerAdapter(this)
-        TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->
-            tab.text = "Tasks"
-        }.attach()
-        binding.floatingActionButton.setOnClickListener {
-            showAddTaskDialog()
-        }
-        database = TasksAppDB.getDatabase(this)
+        binding = ActivityMainBinding.inflate(layoutInflater).apply {
+            viewPager.adapter = ViewPagerAdapter(this@MainActivity)
+            floatingActionButton.setOnClickListener { showAddTaskDialog() }
+            TabLayoutMediator(tabs, viewPager) { tab, _->
+                tab.text = "Tasks"
+            }.attach()
 
-
+            setContentView(root)
+        }
     }
 
     private fun showAddTaskDialog() {
-        val dialogBinding = DialogAddTaskBinding.inflate(layoutInflater)
+        DialogAddTaskBinding.inflate(layoutInflater).apply {
+            val dialog = BottomSheetDialog(this@MainActivity)
+            dialog.setContentView(root)
 
-        val dialog = BottomSheetDialog(this)
-        dialog.setContentView(dialogBinding.root)
-
-        dialogBinding.imageButtonTaskDetails.setOnClickListener {
-            when(dialogBinding.editTextNewTaskDetails.isVisible){
-                true -> dialogBinding.editTextNewTaskDetails.visibility = View.GONE
-                else -> dialogBinding.editTextNewTaskDetails.visibility = View.VISIBLE
+            imageButtonTaskDetails.setOnClickListener {
+                when(editTextNewTaskDetails.isVisible){
+                    true -> editTextNewTaskDetails.visibility = View.GONE
+                    else -> editTextNewTaskDetails.visibility = View.VISIBLE
+                }
             }
+
+            buttonSaveTask.setOnClickListener {
+                val task = Task(
+                    title = editTextNewTask.text.toString().trim(),
+                    description = editTextNewTaskDetails.text.toString().trim()
+                )
+                saveTask(task)
+                dialog.dismiss()
+                tasksFragment.fetchAllTasks()
+            }
+
+            dialog.show()
         }
-        dialogBinding.buttonSaveTask.setOnClickListener {
-            val task = Task(
-                title = dialogBinding.editTextNewTask.text.toString().trim(),
-                description = dialogBinding.editTextNewTaskDetails.text.toString().trim()
-            )
-            saveTask(task)
-            dialog.dismiss()
-            tasksFragment.fetchAllTasks()
-        }
-        dialog.show()
     }
 
     private fun saveTask(task:Task) {
