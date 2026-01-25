@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation("androidx.fragment:fragment-ktx:1.8.9")
     // Room dependencies
     val room_version = "2.8.4"
     implementation("androidx.room:room-runtime:$room_version")

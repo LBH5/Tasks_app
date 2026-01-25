@@ -4,15 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.brnaime.tasksapp.data.TasksAppDB
 import com.brnaime.tasksapp.data.models.Task
 import com.brnaime.tasksapp.databinding.FragmentTasksBinding
 import kotlin.concurrent.thread
 import kotlin.getValue
 
-class TasksFragment : Fragment(), TasksAdapter.TaskUpdatedListener {
+class TasksFragment : Fragment(), TasksAdapter.TaskListener {
 
+    private val viewModel by viewModels<TasksViewModel>()
     private lateinit var binding: FragmentTasksBinding
     private val tasksDao by lazy {
             TasksAppDB.getDatabase(requireContext()).getTaskDAO()
@@ -52,6 +55,16 @@ class TasksFragment : Fragment(), TasksAdapter.TaskUpdatedListener {
             }
         }
 
+    }
+
+    override fun onTaskDeleted(task: Task) {
+        thread {
+            tasksDao.deleteTask(task)
+            requireActivity().runOnUiThread {
+                Toast.makeText(requireContext(), "Task deleted successfully!", Toast.LENGTH_SHORT).show()
+                fetchAllTasks()
+            }
+        }
     }
 
 }

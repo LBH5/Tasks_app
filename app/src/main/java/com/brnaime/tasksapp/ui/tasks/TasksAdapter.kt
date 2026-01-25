@@ -3,13 +3,15 @@ package com.brnaime.tasksapp.ui.tasks
 import android.annotation.SuppressLint
 import android.graphics.Paint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.brnaime.tasksapp.data.models.Task
 import com.brnaime.tasksapp.databinding.ItemTaskBinding
 import com.google.android.material.checkbox.MaterialCheckBox
 
-class TasksAdapter(private val listener: TaskUpdatedListener): RecyclerView.Adapter<TasksAdapter.TaskViewHolder>() {
+class TasksAdapter(private val listener: TaskListener): RecyclerView.Adapter<TasksAdapter.TaskViewHolder>() {
 
     private var tasks: List<Task> = emptyList()
 
@@ -45,10 +47,22 @@ class TasksAdapter(private val listener: TaskUpdatedListener): RecyclerView.Adap
 
         fun bind(task: Task) {
             binding.apply {
+
+                root.setOnLongClickListener {
+                    listener.onTaskDeleted(task)
+                    true
+                }
                 textViewTaskTitle.text = task.title
-                textViewTaskDescription.text = task.description
                 checkboxComplete.isChecked = task.isCompleted
                 checkboxToggleStar.isChecked = task.isStarred
+
+
+                if (task.description.isNullOrEmpty())
+                    textViewTaskDescription.visibility = View.GONE
+                else {
+                    textViewTaskDescription.text = task.description
+                    textViewTaskDescription.visibility = View.VISIBLE
+                }
 
                 if (task.isCompleted){
                     textViewTaskTitle.paintFlags = textViewTaskTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
@@ -71,8 +85,9 @@ class TasksAdapter(private val listener: TaskUpdatedListener): RecyclerView.Adap
         }
     }
 
-    interface TaskUpdatedListener {
+    interface TaskListener {
         fun onTaskUpdated(task: Task)
+        fun onTaskDeleted(task: Task)
     }
 }
 

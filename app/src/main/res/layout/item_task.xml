@@ -22,7 +22,8 @@
         android:textSize="17sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/checkbox_complete"
-        app:layout_constraintEnd_toStartOf="@id/checkbox_toggle_star"/>
+        app:layout_constraintEnd_toStartOf="@id/checkbox_toggle_star"
+        app:layout_constraintBottom_toTopOf="@id/text_view_task_description"/>
 
     <TextView
         android:id="@+id/text_view_task_description"
@@ -33,7 +34,8 @@
         android:textSize="14sp"
         app:layout_constraintTop_toBottomOf="@id/text_view_task_title"
         app:layout_constraintStart_toStartOf="@id/text_view_task_title"
-        app:layout_constraintEnd_toEndOf="@id/text_view_task_title"/>
+        app:layout_constraintEnd_toEndOf="@id/text_view_task_title"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.google.android.material.checkbox.MaterialCheckBox
         android:id="@+id/checkbox_toggle_star"

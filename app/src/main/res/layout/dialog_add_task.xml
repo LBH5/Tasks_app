@@ -63,7 +63,8 @@
         app:layout_constraintTop_toTopOf="@id/image_button_task_details"
         app:layout_constraintBottom_toBottomOf="@id/image_button_task_details"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="@string/button_save"/>
+        android:text="@string/button_save"
+        />
 
 
 
