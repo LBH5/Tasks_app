@@ -1,10 +1,9 @@
-package com.brnaime.tasksapp.data
+package com.brnaime.tasksapp.data.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.brnaime.tasksapp.data.dao.TaskDAO
 import com.brnaime.tasksapp.data.models.Task
 
 @Database(entities = [Task::class], version = 2, exportSchema = false)

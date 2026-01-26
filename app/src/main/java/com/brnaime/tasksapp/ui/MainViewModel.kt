@@ -1,14 +1,16 @@
 package com.brnaime.tasksapp.ui
 
 import androidx.lifecycle.ViewModel
-import com.brnaime.tasksapp.data.TasksAppDB
+import androidx.lifecycle.viewModelScope
+import com.brnaime.tasksapp.TasksApplication
 import com.brnaime.tasksapp.data.models.Task
-import kotlin.concurrent.thread
+import kotlinx.coroutines.launch
+
 
 class MainViewModel: ViewModel() {
 
-    private val database by lazy { TasksAppDB.getDatabase(MainActivity()) }
-    private val taskDao by lazy { database.getTaskDAO() }
+    private val taskRepository = TasksApplication.taskRepository
+
 
     fun createTask(title:String,description:String?){
 
@@ -16,8 +18,8 @@ class MainViewModel: ViewModel() {
             title = title,
             description = description
         )
-        thread {
-            taskDao.createTask(task)
+        viewModelScope.launch {
+            taskRepository.createTask(task)
         }
 
     }

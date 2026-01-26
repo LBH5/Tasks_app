@@ -1,4 +1,4 @@
-package com.brnaime.tasksapp.data.dao
+package com.brnaime.tasksapp.data.database
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -11,16 +11,16 @@ import com.brnaime.tasksapp.data.models.Task
 interface TaskDAO {
 
     @Insert
-    fun createTask(task: Task)
+    suspend fun createTask(task: Task)
 
     @Query("SELECT * FROM tasks")
-    fun getAllTasks(): List<Task>
+    suspend fun getAllTasks(): List<Task>
 
     @Update
-    fun updateTask(task: Task)
+    suspend fun updateTask(task: Task)
 
     @Delete
-    fun deleteTask(task: Task)
+    suspend fun deleteTask(task: Task)
 
 
 }
