@@ -2,6 +2,7 @@ package com.brnaime.tasksapp.data
 
 import com.brnaime.tasksapp.data.database.TaskDAO
 import com.brnaime.tasksapp.data.models.Task
+import kotlinx.coroutines.flow.Flow
 
 class TaskRepository(private val taskDao: TaskDAO) {
 
@@ -9,8 +10,11 @@ class TaskRepository(private val taskDao: TaskDAO) {
         taskDao.createTask(task)
     }
 
-    suspend fun getAllTasks(): List<Task> {
+    suspend fun getAllTasks(): Flow<List<Task>> {
         return taskDao.getAllTasks()
+    }
+    fun getStarredTasks(): Flow<List<Task>> {
+        return taskDao.getStarredTasks()
     }
 
     suspend fun updateTask(task: Task) {
@@ -19,5 +23,7 @@ class TaskRepository(private val taskDao: TaskDAO) {
     suspend fun deleteTask(task: Task) {
         taskDao.deleteTask(task)
     }
+
+
 
 }

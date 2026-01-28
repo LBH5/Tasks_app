@@ -8,14 +8,14 @@ import com.brnaime.tasksapp.data.models.Task
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
-class TasksViewModel: ViewModel() {
+class StarredTasksViewModel: ViewModel() {
 
 
     private val taskRepository = TasksApplication.taskRepository
 
 
-    suspend fun fetchTasks(): Flow<List<Task>> {
-        val tasks = taskRepository.getAllTasks()
+    fun fetchTasks(): Flow<List<Task>> {
+        val tasks = taskRepository.getStarredTasks()
         return tasks
     }
 
